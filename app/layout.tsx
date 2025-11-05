@@ -6,6 +6,7 @@ import CodeInspector from "@/components/CodeInspector";
 // Import the Next.js specific Analytics component. See Vercel docs: https://vercel.com/docs/analytics/quickstart
 import { Analytics } from "@vercel/analytics/react";
 import LoadingOverlay from "@/components/LoadingOverlay";
+import FloatingDevReveal from "@/components/FloatingDevReveal";
 
 export const metadata: Metadata = {
   title: "Vangelis (Van) Kaliafetis – Portfolio",
@@ -60,22 +61,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* Inspector overlays code snippets when elements are hovered */}
           <CodeInspector />
         </ThemeProvider>
+        {/* floating dev reveal, kept out of the header to stay clean */}
+        <FloatingDevReveal />
         {/* Vercel analytics for traffic insights */}
         <Analytics />
       </body>
     </html>
   );
 }
-import FloatingDevReveal from "@/components/FloatingDevReveal";
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body>
-        {children}
-        <FloatingDevReveal />
-      </body>
-    </html>
-  );
-}
-
