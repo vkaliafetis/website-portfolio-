@@ -66,3 +66,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+import FloatingDevReveal from "@/components/FloatingDevReveal";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <FloatingDevReveal />
+      </body>
+    </html>
+  );
+}
+
