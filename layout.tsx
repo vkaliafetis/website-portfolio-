@@ -61,7 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* Inspector overlays code snippets when elements are hovered */}
           <CodeInspector />
         </ThemeProvider>
-        {/* Floating dev reveal, outside main content so header stays clean */}
+        {/* floating dev reveal, kept out of the header to stay clean */}
         <FloatingDevReveal />
         {/* Vercel analytics for traffic insights */}
         <Analytics />
