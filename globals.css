@@ -283,6 +283,18 @@ button:active {
   background: none;
   outline: none;
 }
+/* slide only the app shell when code mode changes */
+html[data-codemode] .app-shell {
+  transition: transform 0.4s ease;
+}
+
+html[data-codemode="on"] .app-shell {
+  transform: translateY(-14px);
+}
+
+html[data-codemode="off"] .app-shell {
+  transform: translateY(0);
+}
 
 
 

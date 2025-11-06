@@ -3,7 +3,6 @@ import React from "react";
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "@/lib/ThemeContext";
 import CodeInspector from "@/components/CodeInspector";
-// Import the Next.js specific Analytics component. See Vercel docs: https://vercel.com/docs/analytics/quickstart
 import { Analytics } from "@vercel/analytics/react";
 import LoadingOverlay from "@/components/LoadingOverlay";
 import FloatingDevReveal from "@/components/FloatingDevReveal";
@@ -45,25 +44,21 @@ export const viewport: Viewport = {
   themeColor: "#3b82f6"
 };
 
-/**
- * Root layout wraps all pages. It includes the ThemeProvider to handle
- * light/dark and Code-Reveal modes, and injects global Analytics. The
- * `CodeInspector` is always mounted but does nothing when Code-Reveal
- * is disabled.
- */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
           <LoadingOverlay />
-          {children}
-          {/* Inspector overlays code snippets when elements are hovered */}
-          <CodeInspector />
-          {/* must be inside ThemeProvider because it uses useTheme */}
+          {/* this wrapper is what we will animate */}
+          <div className="app-shell">
+            {children}
+            {/* Inspector overlays code snippets when elements are hovered */}
+            <CodeInspector />
+          </div>
+          {/* floating button lives inside provider */}
           <FloatingDevReveal />
         </ThemeProvider>
-        {/* Vercel analytics for traffic insights */}
         <Analytics />
       </body>
     </html>
