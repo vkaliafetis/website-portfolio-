@@ -283,18 +283,6 @@ button:active {
   background: none;
   outline: none;
 }
-/* only animate when codemode is actually set */
-html[data-codemode] body {
-  transition: transform 0.4s ease;
-}
-
-html[data-codemode="on"] body {
-  transform: translateY(-14px);
-}
-
-html[data-codemode="off"] body {
-  transform: translateY(0);
-}
 
 
 
