@@ -17,7 +17,7 @@ export default function FloatingDevReveal() {
         zIndex: 2000,
       }}
     >
-      {/* orb + hover preview trigger */}
+      {/* orb + hover/preview trigger */}
       <div
         style={{
           position: "relative",
@@ -26,9 +26,13 @@ export default function FloatingDevReveal() {
         }}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
-        onClick={() => setOpen((p) => !p)}
+        onClick={() => {
+          // 1-click enable dev mode
+          toggleCodeMode();
+          setOpen(true);
+        }}
       >
-        {/* base orb (normal mode) */}
+        {/* base orb */}
         <div
           style={{
             position: "absolute",
@@ -36,32 +40,40 @@ export default function FloatingDevReveal() {
             borderRadius: "999px",
             background: codeMode ? "rgba(213,184,146,1)" : "rgba(213,184,146,0.6)",
             border: "1px solid rgba(213,184,146,0.4)",
-            boxShadow: "0 0 20px rgba(213,184,146,0.5)",
+            boxShadow: "0 0 20px rgba(213,184,146,0.4)",
             display: "grid",
             placeItems: "center",
-            color: "#0d0d0d",
-            fontSize: "0.6rem",
-            fontWeight: 600,
-            pointerEvents: "none",
+            cursor: "pointer",
+            transition: "transform 0.3s ease",
+            transform: hover ? "rotate(14deg)" : "rotate(0deg)",
           }}
+          title="Developer tools"
         >
-          {"</>"}
+          <span
+            style={{
+              fontFamily: "ui-monospace, SFMono-Regular, SFMono-Regular",
+              fontSize: "0.75rem",
+              color: "#0d0d0d",
+              fontWeight: 600,
+            }}
+          >
+            {"{}"}
+          </span>
         </div>
 
-        {/* HOVER PREVIEW: circular reveal with mini dev-mode UI */}
+        {/* circular dev preview window */}
         <div
           style={{
             position: "absolute",
-            bottom: "46px",
-            right: "-30px",
-            width: "180px",
-            height: "130px",
-            background: "rgba(2, 17, 27, 0.95)",
-            border: "1px solid rgba(0, 188, 212, 0.25)",
-            borderRadius: "0.9rem",
+            bottom: "48px",
+            right: "-28px",
+            width: "150px",
+            height: "150px",
+            borderRadius: "999px",
+            background: "radial-gradient(circle at 30% 30%, rgba(2,17,27,1), rgba(2,17,27,0.2))",
+            border: "1px solid rgba(0,188,212,0.3)",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
             overflow: "hidden",
-            backdropFilter: "blur(6px)",
-            boxShadow: "0 12px 30px rgba(0,0,0,0.4)",
             clipPath: hover
               ? "circle(140% at 85% 115%)"
               : "circle(0% at 85% 115%)",
@@ -73,38 +85,37 @@ export default function FloatingDevReveal() {
           <div
             style={{
               height: "26px",
-              background: "rgba(2, 40, 55, 0.7)",
+              background: "rgba(2, 40, 55, 0.75)",
               borderBottom: "1px solid rgba(0, 188, 212, 0.15)",
               display: "flex",
               alignItems: "center",
-              gap: "0.4rem",
+              gap: "0.35rem",
               padding: "0 0.5rem",
             }}
           >
             <span
               style={{
-                width: "7px",
-                height: "7px",
+                width: "6px",
+                height: "6px",
                 borderRadius: "999px",
                 background: "#00bcd4",
-                opacity: 0.9,
               }}
             />
             <span
               style={{
-                fontSize: "0.55rem",
+                fontSize: "0.52rem",
                 color: "rgba(218,247,255,0.7)",
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
               }}
             >
-              Dev layout
+              Dev view
             </span>
           </div>
-          {/* fake dev content */}
+          {/* fake page blocks */}
           <div
             style={{
-              padding: "0.5rem 0.6rem 0.4rem",
+              padding: "0.5rem 0.5rem 0.4rem",
               display: "flex",
               flexDirection: "column",
               gap: "0.35rem",
@@ -113,48 +124,48 @@ export default function FloatingDevReveal() {
             <div
               style={{
                 height: "10px",
-                width: "70%",
-                background: "rgba(0,188,212,0.09)",
-                border: "1px solid rgba(0,188,212,0.32)",
+                width: "65%",
+                background: "rgba(0,188,212,0.08)",
+                border: "1px solid rgba(0,188,212,0.28)",
                 borderRadius: "999px",
               }}
             />
             <div
               style={{
                 height: "6px",
-                width: "50%",
+                width: "40%",
                 background: "rgba(218,247,255,0.12)",
                 borderRadius: "999px",
               }}
             />
             <div
               style={{
-                height: "40px",
-                border: "1px solid rgba(0,188,212,0.09)",
+                flex: 1,
+                border: "1px solid rgba(0,188,212,0.08)",
                 borderRadius: "0.5rem",
                 background:
-                  "repeating-linear-gradient(90deg, rgba(0,188,212,0.04) 0, rgba(0,188,212,0.04) 1px, rgba(2,17,27,0) 1px, rgba(2,17,27,0) 5px)",
+                  "repeating-linear-gradient(90deg, rgba(0,188,212,0.035) 0, rgba(0,188,212,0.035) 1px, rgba(2,17,27,0) 1px, rgba(2,17,27,0) 5px)",
               }}
             />
             <div
               style={{
-                fontSize: "0.5rem",
+                fontSize: "0.46rem",
                 color: "rgba(218,247,255,0.35)",
-                letterSpacing: "0.15em",
                 textTransform: "uppercase",
+                letterSpacing: "0.13em",
               }}
             >
-              Preview only — click to enable
+              preview from button
             </div>
           </div>
         </div>
       </div>
 
-      {/* CLICK PANEL (actual toggle) */}
+      {/* click panel (still shows, but click already enabled dev) */}
       <div
         style={{
           position: "absolute",
-          bottom: "2.9rem",
+          bottom: "3rem",
           right: 0,
           background: "rgba(5,5,5,0.95)",
           border: "1px solid rgba(213,184,146,0.25)",
@@ -180,38 +191,13 @@ export default function FloatingDevReveal() {
         >
           developer mode
         </p>
-        <button
-          onClick={toggleCodeMode}
-          style={{
-            width: "100%",
-            background: codeMode ? "rgba(213,184,146,0.16)" : "transparent",
-            border: "1px solid rgba(213,184,146,0.35)",
-            borderRadius: "999px",
-            color: "#f3f3f2",
-            fontSize: "0.7rem",
-            padding: "0.35rem 0.6rem",
-            textTransform: "uppercase",
-            letterSpacing: "0.14em",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.4rem",
-            justifyContent: "center",
-          }}
-        >
-          <span style={{ fontFamily: "ui-monospace, SFMono-Regular" }}>
-            {"</>"}
-          </span>
-          <span>{codeMode ? "Code on" : "Enable"}</span>
-        </button>
         <p
           style={{
-            marginTop: "0.4rem",
             fontSize: "0.55rem",
             color: "rgba(243,243,242,0.35)",
           }}
         >
-          Ctrl + \ also works
+          Press Ctrl + \ to toggle again.
         </p>
       </div>
     </div>
