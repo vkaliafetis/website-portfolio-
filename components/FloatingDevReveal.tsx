@@ -17,59 +17,67 @@ export default function FloatingDevReveal() {
         zIndex: 2000,
       }}
     >
-      {/* orb wrapper (for hover circle) */}
+      {/* BUTTON AREA */}
       <div
         style={{
           position: "relative",
-          width: "32px",
-          height: "32px",
+          width: "38px",
+          height: "38px",
         }}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={() => setOpen((p) => !p)}
       >
-        {/* expanding circle on hover */}
+        {/* base orb (normal mode look) */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             borderRadius: "999px",
-            background: "radial-gradient(circle, rgba(213,184,146,0.35), rgba(13,13,13,0))",
-            transform: hover ? "scale(1.9)" : "scale(0)",
-            opacity: hover ? 1 : 0,
-            transition: "transform 0.25s ease-out, opacity 0.25s ease-out",
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* main orb */}
-        <div
-          style={{
-            width: "32px",
-            height: "32px",
-            borderRadius: "999px",
             background: codeMode ? "rgba(213,184,146,1)" : "rgba(213,184,146,0.55)",
+            border: "1px solid rgba(213,184,146,0.35)",
             boxShadow: "0 0 22px rgba(213,184,146,0.55)",
-            border: "1px solid rgba(213,184,146,0.4)",
-            cursor: "pointer",
             display: "grid",
             placeItems: "center",
             color: "#0d0d0d",
             fontSize: "0.6rem",
             fontWeight: 600,
-            letterSpacing: "-0.03em",
+            pointerEvents: "none",
           }}
-          title="Developer tools"
         >
           {"</>"}
         </div>
+
+        {/* DEV PREVIEW LAYER – circular reveal */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: "999px",
+            // "developer" look – darker, with beige lines
+            background:
+              "radial-gradient(circle at 30% 30%, rgba(3,3,3,1), rgba(3,3,3,0.4)), rgba(3,3,3,1)",
+            border: "1px solid rgba(213,184,146,0.6)",
+            display: "grid",
+            placeItems: "center",
+            color: "#f3f3f2",
+            fontSize: "0.5rem",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            clipPath: hover ? "circle(120% at 50% 50%)" : "circle(0% at 50% 50%)",
+            transition: "clip-path 0.28s ease-out",
+            pointerEvents: "none",
+          }}
+        >
+          Dev preview
+        </div>
       </div>
 
-      {/* expanding panel */}
+      {/* DROPDOWN PANEL (click to open real control) */}
       <div
         style={{
           position: "absolute",
-          bottom: "2.4rem",
+          bottom: "2.6rem",
           right: 0,
           background: "rgba(5,5,5,0.95)",
           border: "1px solid rgba(213,184,146,0.25)",
