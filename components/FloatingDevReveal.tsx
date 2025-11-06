@@ -6,6 +6,7 @@ import { useTheme } from "@/lib/ThemeContext";
 export default function FloatingDevReveal() {
   const { codeMode, toggleCodeMode } = useTheme();
   const [open, setOpen] = useState(false);
+  const [hover, setHover] = useState(false);
 
   return (
     <div
@@ -16,37 +17,71 @@ export default function FloatingDevReveal() {
         zIndex: 2000,
       }}
     >
-      {/* the orb */}
+      {/* orb wrapper (for hover circle) */}
       <div
-        onClick={() => setOpen((p) => !p)}
         style={{
-          width: "14px",
-          height: "14px",
-          borderRadius: "999px",
-          background: codeMode ? "rgba(213,184,146,1)" : "rgba(213,184,146,0.4)",
-          boxShadow: "0 0 18px rgba(213,184,146,0.55)",
-          cursor: "pointer",
-          transition: "transform 0.3s ease",
+          position: "relative",
+          width: "32px",
+          height: "32px",
         }}
-      ></div>
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onClick={() => setOpen((p) => !p)}
+      >
+        {/* expanding circle on hover */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: "999px",
+            background: "radial-gradient(circle, rgba(213,184,146,0.35), rgba(13,13,13,0))",
+            transform: hover ? "scale(1.9)" : "scale(0)",
+            opacity: hover ? 1 : 0,
+            transition: "transform 0.25s ease-out, opacity 0.25s ease-out",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* main orb */}
+        <div
+          style={{
+            width: "32px",
+            height: "32px",
+            borderRadius: "999px",
+            background: codeMode ? "rgba(213,184,146,1)" : "rgba(213,184,146,0.55)",
+            boxShadow: "0 0 22px rgba(213,184,146,0.55)",
+            border: "1px solid rgba(213,184,146,0.4)",
+            cursor: "pointer",
+            display: "grid",
+            placeItems: "center",
+            color: "#0d0d0d",
+            fontSize: "0.6rem",
+            fontWeight: 600,
+            letterSpacing: "-0.03em",
+          }}
+          title="Developer tools"
+        >
+          {"</>"}
+        </div>
+      </div>
 
       {/* expanding panel */}
       <div
         style={{
           position: "absolute",
-          bottom: "1.8rem",
-          right: "0",
-          background: "rgba(5,5,5,0.9)",
+          bottom: "2.4rem",
+          right: 0,
+          background: "rgba(5,5,5,0.95)",
           border: "1px solid rgba(213,184,146,0.25)",
           borderRadius: "1rem",
-          padding: open ? "0.9rem 1rem 0.8rem 1rem" : "0",
-          minWidth: open ? "180px" : "0",
+          padding: open ? "0.9rem 1rem 0.7rem 1rem" : "0",
+          minWidth: open ? "190px" : "0",
           overflow: "hidden",
           backdropFilter: "blur(12px)",
           transform: open ? "translateY(0)" : "translateY(12px)",
           opacity: open ? 1 : 0,
           pointerEvents: open ? "auto" : "none",
-          transition: "all 0.35s ease",
+          transition: "all 0.3s ease",
         }}
       >
         <p
@@ -58,13 +93,13 @@ export default function FloatingDevReveal() {
             marginBottom: "0.45rem",
           }}
         >
-          developer tools
+          developer mode
         </p>
         <button
           onClick={toggleCodeMode}
           style={{
             width: "100%",
-            background: codeMode ? "rgba(213,184,146,0.18)" : "transparent",
+            background: codeMode ? "rgba(213,184,146,0.16)" : "transparent",
             border: "1px solid rgba(213,184,146,0.35)",
             borderRadius: "999px",
             color: "#f3f3f2",
@@ -79,10 +114,10 @@ export default function FloatingDevReveal() {
             justifyContent: "center",
           }}
         >
-          <span style={{ fontFamily: "ui-monospace, SFMono-Regular, SFMono-Regular" }}>
+          <span style={{ fontFamily: "ui-monospace, SFMono-Regular" }}>
             {"</>"}
           </span>
-          <span>{codeMode ? "Code on" : "Code mode"}</span>
+          <span>{codeMode ? "Code on" : "Enable"}</span>
         </button>
         <p
           style={{
@@ -91,7 +126,7 @@ export default function FloatingDevReveal() {
             color: "rgba(243,243,242,0.35)",
           }}
         >
-          Ctrl + \ to toggle
+          Ctrl + \ also works
         </p>
       </div>
     </div>
