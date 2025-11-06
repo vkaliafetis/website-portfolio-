@@ -13,36 +13,31 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-/**
- * ThemeProvider supplies the current theme and codemode to all
- * descendants. It also persists the choice in localStorage.
- */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // changed from "light" to "dark" so the site opens in dark mode
+  // default: dark site, NORMAL mode
   const [theme, setTheme] = useState<ThemeMode>("dark");
   const [codeMode, setCodeMode] = useState(false);
 
-  // Load theme preferences from localStorage on mount
+  // load only THEME from storage, but FORCE code mode OFF on load
   useEffect(() => {
     const storedTheme = window.localStorage.getItem("van-theme") as ThemeMode | null;
-    const storedCode = window.localStorage.getItem("van-code-mode");
     if (storedTheme) {
       setTheme(storedTheme);
     }
-    if (storedCode === "on") setCodeMode(true);
+    // make sure we start in normal mode
+    window.localStorage.setItem("van-code-mode", "off");
   }, []);
 
-  // Persist changes to localStorage and update html attributes
+  // keep theme in sync
   useEffect(() => {
     window.localStorage.setItem("van-theme", theme);
-    const html = document.documentElement;
-    html.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
+  // keep code mode in sync
   useEffect(() => {
     window.localStorage.setItem("van-code-mode", codeMode ? "on" : "off");
-    const html = document.documentElement;
-    html.setAttribute("data-codemode", codeMode ? "on" : "off");
+    document.documentElement.setAttribute("data-codemode", codeMode ? "on" : "off");
   }, [codeMode]);
 
   const toggleTheme = () => setTheme((prev) => (prev === "light" ? "dark" : "light"));
@@ -55,13 +50,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-/**
- * Hook to access theme context values. Throws if used outside of provider.
- */
 export function useTheme() {
   const ctx = useContext(ThemeContext);
-  if (!ctx) {
-    throw new Error("useTheme must be used within ThemeProvider");
-  }
+  if (!ctx) throw new Error("useTheme must be used within ThemeProvider");
   return ctx;
 }
