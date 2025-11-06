@@ -283,5 +283,18 @@ button:active {
   background: none;
   outline: none;
 }
+body {
+  transition: transform 0.4s ease;
+}
+
+/* when developer mode is ON, slide the whole site up a bit */
+html[data-codemode="on"] body {
+  transform: translateY(-14px);
+}
+
+/* optional: when normal, slide it back down */
+html[data-codemode="off"] body {
+  transform: translateY(0);
+}
 
 

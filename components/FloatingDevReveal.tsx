@@ -7,8 +7,9 @@ export default function FloatingDevReveal() {
   const { codeMode, toggleCodeMode } = useTheme();
   const [hover, setHover] = useState(false);
 
-  // decide which preview to show
-  const showingDevPreview = !codeMode; // normal -> show dev, dev -> show normal
+  // when we're in normal mode -> show dev preview
+  // when we're in dev mode -> show normal (beige) preview
+  const showingDevPreview = !codeMode;
 
   return (
     <div
@@ -28,7 +29,7 @@ export default function FloatingDevReveal() {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={() => {
-          // single click toggles
+          // single click toggles mode
           toggleCodeMode();
         }}
       >
@@ -61,30 +62,30 @@ export default function FloatingDevReveal() {
           </span>
         </div>
 
-        {/* PREVIEW WINDOW (rectangular, bigger, inside screen) */}
+        {/* PREVIEW WINDOW */}
         <div
-            style={{
-              position: "absolute",
-              bottom: "64px",
-              right: 0,
-              width: "240px",
-              height: "150px",
-              background: showingDevPreview
-                ? "rgba(2,17,27,0.95)"
-                : "rgba(13,13,13,0.9)",
-              border: showingDevPreview
-                ? "1px solid rgba(0,188,212,0.25)"
-                : "1px solid rgba(213,184,146,0.25)",
-              borderRadius: "1rem",
-              overflow: "hidden",
-              backdropFilter: "blur(10px)",
-              boxShadow: "0 14px 30px rgba(0,0,0,0.45)",
-              clipPath: hover
-                ? "circle(160% at 90% 110%)"
-                : "circle(0% at 90% 110%)",
-              transition: "clip-path 0.45s ease-out",
-              pointerEvents: "none",
-            }}
+          style={{
+            position: "absolute",
+            bottom: "64px",
+            right: 0,
+            width: "240px",
+            height: "150px",
+            background: showingDevPreview
+              ? "rgba(2,17,27,0.95)" // dev look
+              : "rgba(13,13,13,0.9)", // normal look
+            border: showingDevPreview
+              ? "1px solid rgba(0,188,212,0.25)"
+              : "1px solid rgba(213,184,146,0.25)", // beige accent for normal preview
+            borderRadius: "1rem",
+            overflow: "hidden",
+            backdropFilter: "blur(10px)",
+            boxShadow: "0 14px 30px rgba(0,0,0,0.45)",
+            clipPath: hover
+              ? "circle(160% at 90% 110%)"
+              : "circle(0% at 90% 110%)",
+            transition: "clip-path 0.45s ease-out",
+            pointerEvents: "none",
+          }}
         >
           {/* top bar */}
           <div
@@ -107,7 +108,7 @@ export default function FloatingDevReveal() {
                 width: "7px",
                 height: "7px",
                 borderRadius: "999px",
-                background: showingDevPreview ? "#00bcd4" : "#d5b892",
+                background: showingDevPreview ? "#00bcd4" : "#d5b892", // beige dot for normal preview
               }}
             />
             <span
@@ -138,10 +139,10 @@ export default function FloatingDevReveal() {
                 width: "72%",
                 background: showingDevPreview
                   ? "rgba(0,188,212,0.1)"
-                  : "rgba(213,184,146,0.12)",
+                  : "rgba(213,184,146,0.15)", // beige accent
                 border: showingDevPreview
                   ? "1px solid rgba(0,188,212,0.25)"
-                  : "1px solid rgba(213,184,146,0.2)",
+                  : "1px solid rgba(213,184,146,0.35)",
                 borderRadius: "999px",
                 transform: hover ? "translateX(0)" : "translateX(18px)",
                 opacity: hover ? 1 : 0,
@@ -174,7 +175,7 @@ export default function FloatingDevReveal() {
                 borderRadius: "0.6rem",
                 background: showingDevPreview
                   ? "repeating-linear-gradient(90deg, rgba(0,188,212,0.03) 0, rgba(0,188,212,0.03) 1px, rgba(2,17,27,0) 1px, rgba(2,17,27,0) 6px)"
-                  : "linear-gradient(180deg, rgba(21,21,21,0.35), rgba(13,13,13,0.1))",
+                  : "linear-gradient(180deg, rgba(21,21,21,0.4), rgba(13,13,13,0.05))",
                 transform: hover ? "translateY(0)" : "translateY(10px)",
                 opacity: hover ? 1 : 0,
                 transition: "all 0.35s ease 0.08s",
