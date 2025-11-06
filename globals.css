@@ -283,18 +283,21 @@ button:active {
   background: none;
   outline: none;
 }
-/* slide only the app shell when code mode changes */
-html[data-codemode] .app-shell {
+/* base: always allow the shell to animate */
+.app-shell {
   transition: transform 0.4s ease;
 }
 
-html[data-codemode="on"] .app-shell {
+/* when code mode is ON, slide up */
+html[data-codemode="on"] body .app-shell {
   transform: translateY(-14px);
 }
 
-html[data-codemode="off"] .app-shell {
+/* when code mode is OFF, slide back down */
+html[data-codemode="off"] body .app-shell {
   transform: translateY(0);
 }
+
 
 
 
