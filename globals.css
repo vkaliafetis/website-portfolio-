@@ -283,17 +283,17 @@ button:active {
   background: none;
   outline: none;
 }
-/* both layers share base rules */
+/* shared base */
 .app-shell,
 .dev-shell {
   position: fixed;
   inset: 0;
   overflow-y: auto;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: opacity 0.6s ease, transform 0.6s ease;
   transform-origin: center center;
 }
 
-/* normal mode visible by default */
+/* normal mode defaults */
 .app-shell {
   z-index: 10;
   background: var(--color-bg, #0d0d0d);
@@ -301,29 +301,29 @@ button:active {
   transform: scale(1);
 }
 
-/* dev hidden by default */
+/* dev hidden initially */
 .dev-shell {
   z-index: 20;
   background: #02111b;
   opacity: 0;
-  transform: scale(1.03); /* start slightly zoomed so coming in feels forward */
+  transform: scale(1.06); /* more zoom out for dramatic entry */
   pointer-events: none;
 }
 
-/* ===== dev mode ON ===== */
+/* ===== ENTER DEV MODE ===== */
 html[data-codemode="on"] .dev-shell {
   opacity: 1;
-  transform: scale(1); /* zoom in to 1 */
+  transform: scale(1); /* zoom in smoothly */
   pointer-events: auto;
 }
 
 html[data-codemode="on"] .app-shell {
   opacity: 0;
-  transform: scale(0.975); /* zoom out a touch */
+  transform: scale(0.94); /* zoom out more noticeably */
   pointer-events: none;
 }
 
-/* ===== dev mode OFF ===== */
+/* ===== RETURN TO NORMAL ===== */
 html[data-codemode="off"] .app-shell {
   opacity: 1;
   transform: scale(1);
@@ -332,8 +332,9 @@ html[data-codemode="off"] .app-shell {
 
 html[data-codemode="off"] .dev-shell {
   opacity: 0;
-  transform: scale(1.03); /* pull back out of view */
+  transform: scale(1.06);
   pointer-events: none;
 }
+
 
 
