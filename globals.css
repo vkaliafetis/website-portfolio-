@@ -283,83 +283,63 @@ button:active {
   background: none;
   outline: none;
 }
-/* ===== NORMAL SITE ===== */
+/* base: normal site */
 .app-shell {
-  position: relative;
-  z-index: 1;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: var(--color-bg, #0d0d0d);
+  transform: translateY(0);
+  transition: transform 0.45s ease-in-out;
 }
 
-/* fade darker when dev overlay active */
+/* dim the normal site when dev is active */
 .app-shell::after {
   content: "";
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0);
   pointer-events: none;
-  transition: background 0.4s ease;
-  z-index: 10;
+  transition: background 0.3s ease;
+  z-index: 11;
+}
+
+html[data-codemode="on"] .app-shell {
+  /* hide normal page by sliding it UP */
+  transform: translateY(-100vh);
 }
 
 html[data-codemode="on"] .app-shell::after {
   background: rgba(0, 0, 0, 0.35);
 }
 
-/* ===== DEV OVERLAY ===== */
+/* dev layer – sits above but starts hidden above screen */
 .dev-shell {
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 20;
   background: #02111b;
-  transform: translateY(-100vh) scale(0.98);
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  transition: transform 0.45s ease-in-out, box-shadow 0.45s ease-in-out;
+  transform: translateY(-100vh);
+  opacity: 1;
+  transition: transform 0.45s ease-in-out, opacity 0.25s ease;
   overflow-y: auto;
 }
 
-/* slide in + land effect */
+/* ENTER dev: slide dev down */
 html[data-codemode="on"] .dev-shell {
-  transform: translateY(0) scale(1);
-  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.45);
-}
-
-/* slide out */
-html[data-codemode="off"] .dev-shell {
-  transform: translateY(-100vh) scale(0.98);
-}
-
-/* glowing cyan bar at top when active */
-.dev-shell::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 12%;
-  width: 76%;
-  height: 4px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 188, 212, 0) 0%,
-    rgba(0, 188, 212, 0.9) 50%,
-    rgba(0, 188, 212, 0) 100%
-  );
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-html[data-codemode="on"] .dev-shell::before {
+  transform: translateY(0);
   opacity: 1;
 }
 
-/* ===== FLOATING BUTTON REACTION ===== */
-.floating-dev-btn {
-  transition: transform 0.25s ease;
+/* EXIT dev: don't slide it back up, just fade it out */
+html[data-codemode="off"] .dev-shell {
+  /* stay in place so the normal can slide over */
+  transform: translateY(0);
+  opacity: 0;
+  pointer-events: none;
 }
 
-html[data-codemode="on"] .floating-dev-btn {
-  transform: scale(1.05) rotate(6deg);
+/* when we exit dev, bring the normal page back down */
+html[data-codemode="off"] .app-shell {
+  transform: translateY(0);
 }
-
-
-
-
-
-
