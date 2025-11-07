@@ -22,46 +22,52 @@ export const metadata: Metadata = {
         url: "/social-preview.png",
         width: 1200,
         height: 630,
-        alt: "Vangelis (Van) Kaliafetis – portfolio preview"
-      }
+        alt: "Vangelis (Van) Kaliafetis – portfolio preview",
+      },
     ],
-    type: "website"
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Vangelis (Van) Kaliafetis",
     description: "The portfolio of Vangelis (Van) Kaliafetis.",
-    images: ["/social-preview.png"]
+    images: ["/social-preview.png"],
   },
   other: {
-    "theme-color": "#3b82f6"
-  }
+    "theme-color": "#3b82f6",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#3b82f6"
+  themeColor: "#3b82f6",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
           <LoadingOverlay />
 
-          {/* base site - normal mode */}
+          {/* base site */}
           <div className="app-shell">{children}</div>
 
-          {/* dev overlay - slides down over the base site */}
+          {/* overlay dev site */}
           <div className="dev-shell">
             {children}
             <CodeInspector />
           </div>
 
-          {/* floating button inside provider */}
-          <FloatingDevReveal />
+          {/* floating button */}
+          <div className="floating-dev-btn">
+            <FloatingDevReveal />
+          </div>
         </ThemeProvider>
         <Analytics />
       </body>
