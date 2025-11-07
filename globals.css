@@ -283,15 +283,14 @@ button:active {
   background: none;
   outline: none;
 }
-/* ============== BASE LAYERS ============== */
-
-/* base layers */
+/* both layers share base rules */
 .app-shell,
 .dev-shell {
   position: fixed;
   inset: 0;
   overflow-y: auto;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform-origin: center center;
 }
 
 /* normal mode visible by default */
@@ -307,31 +306,33 @@ button:active {
   z-index: 20;
   background: #02111b;
   opacity: 0;
-  transform: scale(1.01); /* tiny zoom so it feels like it's coming forward */
+  transform: scale(1.03); /* start slightly zoomed so coming in feels forward */
   pointer-events: none;
 }
 
-/* turn DEV on */
+/* ===== dev mode ON ===== */
 html[data-codemode="on"] .dev-shell {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1); /* zoom in to 1 */
   pointer-events: auto;
 }
+
 html[data-codemode="on"] .app-shell {
   opacity: 0;
-  transform: scale(0.985);
+  transform: scale(0.975); /* zoom out a touch */
   pointer-events: none;
 }
 
-/* turn DEV off */
+/* ===== dev mode OFF ===== */
 html[data-codemode="off"] .app-shell {
   opacity: 1;
   transform: scale(1);
   pointer-events: auto;
 }
+
 html[data-codemode="off"] .dev-shell {
   opacity: 0;
-  transform: scale(1.01);
+  transform: scale(1.03); /* pull back out of view */
   pointer-events: none;
 }
 
