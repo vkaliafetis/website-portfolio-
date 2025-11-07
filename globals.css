@@ -283,63 +283,58 @@ button:active {
   background: none;
   outline: none;
 }
-/* base: normal site */
+/* ============== BASE LAYERS ============== */
+
+/* normal site layer */
 .app-shell {
   position: fixed;
   inset: 0;
   z-index: 10;
   background: var(--color-bg, #0d0d0d);
+  /* normal mode starts visible */
   transform: translateY(0);
   transition: transform 0.45s ease-in-out;
+  overflow-y: auto;
 }
 
-/* dim the normal site when dev is active */
-.app-shell::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0);
-  pointer-events: none;
-  transition: background 0.3s ease;
-  z-index: 11;
-}
-
-html[data-codemode="on"] .app-shell {
-  /* hide normal page by sliding it UP */
-  transform: translateY(-100vh);
-}
-
-html[data-codemode="on"] .app-shell::after {
-  background: rgba(0, 0, 0, 0.35);
-}
-
-/* dev layer – sits above but starts hidden above screen */
+/* dev site layer */
 .dev-shell {
   position: fixed;
   inset: 0;
   z-index: 20;
   background: #02111b;
+  /* dev starts hidden above */
   transform: translateY(-100vh);
-  opacity: 1;
-  transition: transform 0.45s ease-in-out, opacity 0.25s ease;
+  transition: transform 0.45s ease-in-out;
   overflow-y: auto;
 }
 
-/* ENTER dev: slide dev down */
+/* ============== MODE TOGGLES ============== */
+
+/* when dev mode is ON: dev slides in, normal slides up */
 html[data-codemode="on"] .dev-shell {
   transform: translateY(0);
-  opacity: 1;
+}
+html[data-codemode="on"] .app-shell {
+  transform: translateY(-100vh);
 }
 
-/* EXIT dev: don't slide it back up, just fade it out */
-html[data-codemode="off"] .dev-shell {
-  /* stay in place so the normal can slide over */
-  transform: translateY(0);
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* when we exit dev, bring the normal page back down */
+/* when dev mode is OFF: normal slides in, dev slides up */
 html[data-codemode="off"] .app-shell {
   transform: translateY(0);
 }
+html[data-codemode="off"] .dev-shell {
+  transform: translateY(-100vh);
+}
+
+/* ============== DIMMING (only when dev shown) ============== */
+
+html[data-codemode="on"] .dev-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(0,0,0,0.35), rgba(0,0,0,0.65));
+  pointer-events: none;
+  z-index: -1; /* behind dev content */
+}
+
