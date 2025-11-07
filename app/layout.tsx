@@ -50,13 +50,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ThemeProvider>
           <LoadingOverlay />
-          {/* this wrapper is what we will animate */}
-          <div className="app-shell">
+
+          {/* base site - normal mode */}
+          <div className="app-shell">{children}</div>
+
+          {/* dev overlay - slides down over the base site */}
+          <div className="dev-shell">
             {children}
-            {/* Inspector overlays code snippets when elements are hovered */}
             <CodeInspector />
           </div>
-          {/* floating button lives inside provider */}
+
+          {/* floating button inside provider */}
           <FloatingDevReveal />
         </ThemeProvider>
         <Analytics />

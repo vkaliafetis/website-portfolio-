@@ -283,20 +283,33 @@ button:active {
   background: none;
   outline: none;
 }
-/* base: always allow the shell to animate */
+/* base layer - normal site */
 .app-shell {
-  transition: transform 0.4s ease;
+  position: relative;
+  z-index: 1;
 }
 
-/* when code mode is ON, slide up */
-html[data-codemode="on"] body .app-shell {
-  transform: translateY(-14px);
+/* overlay layer - dev site */
+.dev-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: #02111b; /* your dev bg */
+  transform: translateY(-100vh); /* start off-screen above */
+  transition: transform 0.45s ease-in-out;
+  overflow-y: auto;
 }
 
-/* when code mode is OFF, slide back down */
-html[data-codemode="off"] body .app-shell {
+/* when code mode is ON → slide dev layer down */
+html[data-codemode="on"] .dev-shell {
   transform: translateY(0);
 }
+
+/* when code mode is OFF → push dev layer back up */
+html[data-codemode="off"] .dev-shell {
+  transform: translateY(-100vh);
+}
+
 
 
 
