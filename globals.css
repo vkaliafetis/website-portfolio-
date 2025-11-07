@@ -285,56 +285,54 @@ button:active {
 }
 /* ============== BASE LAYERS ============== */
 
-/* normal site layer */
-.app-shell {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  background: var(--color-bg, #0d0d0d);
-  /* normal mode starts visible */
-  transform: translateY(0);
-  transition: transform 0.45s ease-in-out;
-  overflow-y: auto;
-}
-
-/* dev site layer */
+/* base layers */
+.app-shell,
 .dev-shell {
   position: fixed;
   inset: 0;
+  overflow-y: auto;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* normal mode visible by default */
+.app-shell {
+  z-index: 10;
+  background: var(--color-bg, #0d0d0d);
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* dev hidden by default */
+.dev-shell {
   z-index: 20;
   background: #02111b;
-  /* dev starts hidden above */
-  transform: translateY(-100vh);
-  transition: transform 0.45s ease-in-out;
-  overflow-y: auto;
+  opacity: 0;
+  transform: scale(1.01); /* tiny zoom so it feels like it's coming forward */
+  pointer-events: none;
 }
 
-/* ============== MODE TOGGLES ============== */
-
-/* when dev mode is ON: dev slides in, normal slides up */
+/* turn DEV on */
 html[data-codemode="on"] .dev-shell {
-  transform: translateY(0);
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
 }
 html[data-codemode="on"] .app-shell {
-  transform: translateY(-100vh);
+  opacity: 0;
+  transform: scale(0.985);
+  pointer-events: none;
 }
 
-/* when dev mode is OFF: normal slides in, dev slides up */
+/* turn DEV off */
 html[data-codemode="off"] .app-shell {
-  transform: translateY(0);
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
 }
 html[data-codemode="off"] .dev-shell {
-  transform: translateY(-100vh);
-}
-
-/* ============== DIMMING (only when dev shown) ============== */
-
-html[data-codemode="on"] .dev-shell::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at top, rgba(0,0,0,0.35), rgba(0,0,0,0.65));
+  opacity: 0;
+  transform: scale(1.01);
   pointer-events: none;
-  z-index: -1; /* behind dev content */
 }
+
 
