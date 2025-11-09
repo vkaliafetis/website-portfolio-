@@ -4,7 +4,7 @@
   min-height: 200px;
 }
 
-/* whole stack gently floats */
+/* whole stack floats */
 .floater {
   position: relative;
   width: 160px;
@@ -20,9 +20,9 @@
   background: radial-gradient(circle at 30% 30%, #f0dfc5 0%, #d5b892 55%, #b79262 100%);
   box-shadow:
     0 18px 35px rgba(0, 0, 0, 0.25),
-    inset 0 1px 4px rgba(255, 255, 255, 0.2);
-  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.25));
+    inset 0 1px 4px rgba(255, 255, 255, 0.15);
   opacity: 0.95;
+  pointer-events: none;
 }
 
 /* biggest, slowest */
@@ -30,7 +30,7 @@
   animation: spin1 18s linear infinite;
 }
 
-/* middle, a bit smaller, faster */
+/* middle, smaller, faster, inner */
 .disc2 {
   width: 120px;
   height: 120px;
@@ -50,40 +50,19 @@
   animation: spin3 8s linear infinite;
 }
 
+/* rotations */
 @keyframes spin1 {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
-
 @keyframes spin2 {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(-360deg);
-  }
+  to { transform: rotate(-360deg); } /* opposite dir */
 }
-
 @keyframes spin3 {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 /* gentle up/down */
 @keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }

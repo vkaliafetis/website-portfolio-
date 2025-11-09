@@ -3,12 +3,13 @@
 import React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
+import ConcentricDiscs from "@/components/ConcentricDiscs"; // ← new import
 
 /**
- * Hero section featuring name, tagline and a call‑to‑action. The
+ * Hero section featuring name, tagline and a call-to-action. The
  * background and elements translate subtly on scroll to create a
  * parallax effect. A data-code-id attribute is added for the
- * Code‑Reveal inspector.
+ * Code-Reveal inspector.
  */
 export default function Hero() {
   const { scrollY } = useScroll();
@@ -16,12 +17,45 @@ export default function Hero() {
   const y = useTransform(scrollY, [0, 300], [0, -100]);
 
   return (
-    <section id="hero" data-code-id="hero-section" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "80vh" }}>
+    <section
+      id="hero"
+      data-code-id="hero-section"
+      style={{
+        display: "flex",
+        flexDirection: "column",          // allow stacking
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "80vh",
+        textAlign: "center",
+      }}
+    >
+      {/* Floating 3-disc animation */}
+      <div style={{ marginBottom: "2.5rem" }}>
+        <ConcentricDiscs />
+      </div>
+
       <motion.div style={{ y }}>
-        <h1 style={{ fontSize: "clamp(2rem, 5vw, 4rem)", marginBottom: "var(--space-md)" }}>Vangelis (Van) Kaliafetis</h1>
-        <p style={{ fontSize: "1.125rem", color: "var(--color-muted)", marginBottom: "var(--space-lg)" }}>
-          I like difficult problems and simple solutions. I am early in my coding journey and obsessed with learning by building.
+        <h1
+          style={{
+            fontSize: "clamp(2rem, 5vw, 4rem)",
+            marginBottom: "var(--space-md)",
+          }}
+        >
+          Vangelis (Van) Kaliafetis
+        </h1>
+
+        <p
+          style={{
+            fontSize: "1.125rem",
+            color: "var(--color-muted)",
+            marginBottom: "var(--space-lg)",
+            maxWidth: "640px",
+          }}
+        >
+          I like difficult problems and simple solutions. I am early in my
+          coding journey and obsessed with learning by building.
         </p>
+
         <Link href="#contact">
           <button>Get in touch</button>
         </Link>
