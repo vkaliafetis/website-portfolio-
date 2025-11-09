@@ -283,65 +283,53 @@ button:active {
   background: none;
   outline: none;
 }
-/* normal site */
-.app-shell {
-  position: relative;
-  z-index: 1;
-}
-
-/* lock background scroll when dev is open */
-html[data-codemode="on"] body {
-  overflow: hidden;
-}
-
-/* dev overlay – FULLY opaque now */
+/* base layers */
+.app-shell,
 .dev-shell {
   position: fixed;
   inset: 0;
-  z-index: 30;
-  background: #02111b; /* solid, no see-through */
-  opacity: 0;
-  transform: scale(0.985) translateY(6px); /* small, down */
-  pointer-events: none;
   overflow-y: auto;
-  transition:
-    opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
-/* glow bar on top */
-.dev-shell::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 10%;
-  width: 80%;
-  height: 4px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 188, 212, 0) 0%,
-    rgba(0, 188, 212, 0.8) 50%,
-    rgba(0, 188, 212, 0) 100%
-  );
+/* normal mode visible by default */
+.app-shell {
+  z-index: 10;
+  background: var(--color-bg, #0d0d0d);
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* dev hidden by default */
+.dev-shell {
+  z-index: 20;
+  background: #02111b;
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transform: scale(1.01); /* tiny zoom so it feels like it's coming forward */
   pointer-events: none;
 }
 
-/* show dev mode */
+/* turn DEV on */
 html[data-codemode="on"] .dev-shell {
   opacity: 1;
-  transform: scale(1) translateY(0);
+  transform: scale(1);
   pointer-events: auto;
 }
-html[data-codemode="on"] .dev-shell::before {
-  opacity: 1;
+html[data-codemode="on"] .app-shell {
+  opacity: 0;
+  transform: scale(0.985);
+  pointer-events: none;
 }
 
-/* hide dev mode */
+/* turn DEV off */
+html[data-codemode="off"] .app-shell {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
 html[data-codemode="off"] .dev-shell {
   opacity: 0;
-  transform: scale(0.985) translateY(6px);
+  transform: scale(1.01);
   pointer-events: none;
 }
 
