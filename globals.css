@@ -283,63 +283,55 @@ button:active {
   background: none;
   outline: none;
 }
-/* NORMAL PAGE stays scrollable */
+/* normal page: stays in flow, scrolls normally */
 .app-shell {
-  position: relative;      /* not fixed anymore */
+  position: relative;
   z-index: 1;
 }
 
-/* DEV OVERLAY sits on top */
+/* dev overlay: fixed, on top, hidden by default */
 .dev-shell {
   position: fixed;
   inset: 0;
   z-index: 20;
   background: rgba(2, 17, 27, 0.97);
-  /* start hidden */
   opacity: 0;
-  transform: scale(1.06) translateY(12px); /* a bit back + a bit down */
-  filter: blur(6px); /* makes the entry feel deeper */
-  transition:
-    opacity 0.55s ease,
-    transform 0.55s ease,
-    filter 0.55s ease;
+  transform: translateY(8px); /* tiny drop so it doesn't feel flat */
   pointer-events: none;
   overflow-y: auto;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
 }
 
-/* BACKDROP dimmer */
+/* optional nice top glow */
 .dev-shell::before {
   content: "";
   position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at top, rgba(0,0,0,0.45), rgba(0,0,0,0.7));
+  top: 0;
+  left: 12%;
+  width: 76%;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 188, 212, 0) 0%,
+    rgba(0, 188, 212, 0.9) 50%,
+    rgba(0, 188, 212, 0) 100%
+  );
   opacity: 0;
-  transition: opacity 0.55s ease;
+  transition: opacity 0.35s ease;
   pointer-events: none;
-  z-index: -1;
 }
 
-/* when dev mode is ON: show overlay, smooth, without affecting scroll */
+/* when dev is ON: fade in, lift up */
 html[data-codemode="on"] .dev-shell {
   opacity: 1;
-  transform: scale(1) translateY(0);
-  filter: blur(0);
+  transform: translateY(0);
   pointer-events: auto;
 }
-
 html[data-codemode="on"] .dev-shell::before {
   opacity: 1;
 }
-
-/* when dev mode is OFF: hide overlay again */
-html[data-codemode="off"] .dev-shell {
-  opacity: 0;
-  transform: scale(1.06) translateY(12px);
-  filter: blur(6px);
-  pointer-events: none;
-}
-
-
 
 
 

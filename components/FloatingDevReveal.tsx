@@ -7,8 +7,21 @@ export default function FloatingDevReveal() {
   const { codeMode, toggleCodeMode } = useTheme();
   const [hover, setHover] = useState(false);
 
-  // when we're in normal mode -> show dev preview
-  // when we're in dev mode -> show normal (beige) preview
+  const handleClick = () => {
+    const dev = document.querySelector(".dev-shell") as HTMLElement | null;
+
+    // going INTO dev mode → match overlay scroll to current page scroll
+    if (!codeMode) {
+      const y = window.scrollY;
+      if (dev) dev.scrollTo(0, y);
+    }
+    // going OUT of dev → leave window scroll alone
+
+    toggleCodeMode();
+  };
+
+  // when in normal mode → show dev preview
+  // when in dev mode → show normal (beige) preview
   const showingDevPreview = !codeMode;
 
   return (
@@ -17,7 +30,7 @@ export default function FloatingDevReveal() {
         position: "fixed",
         bottom: "1.5rem",
         right: "1.5rem",
-        zIndex: 2000,
+        zIndex: 2001,
       }}
     >
       <div
@@ -28,25 +41,24 @@ export default function FloatingDevReveal() {
         }}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
-        onClick={() => {
-          // single click toggles mode
-          toggleCodeMode();
-        }}
+        onClick={handleClick}
       >
-        {/* BIGGER orb */}
+        {/* main button */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             borderRadius: "999px",
-            background: codeMode ? "rgba(213,184,146,1)" : "rgba(213,184,146,0.7)",
+            background: codeMode
+              ? "rgba(213,184,146,1)"
+              : "rgba(213,184,146,0.7)",
             border: "1px solid rgba(213,184,146,0.55)",
             boxShadow: "0 0 26px rgba(213,184,146,0.55)",
             display: "grid",
             placeItems: "center",
             cursor: "pointer",
-            transition: "transform 0.28s ease",
-            transform: hover ? "rotate(16deg) scale(1.04)" : "rotate(0deg) scale(1)",
+            transition: "transform 0.25s ease",
+            transform: hover ? "rotate(16deg) scale(1.04)" : "rotate(0) scale(1)",
           }}
           title="Developer tools"
         >
@@ -62,7 +74,7 @@ export default function FloatingDevReveal() {
           </span>
         </div>
 
-        {/* PREVIEW WINDOW */}
+        {/* hover preview panel */}
         <div
           style={{
             position: "absolute",
@@ -75,7 +87,7 @@ export default function FloatingDevReveal() {
               : "rgba(13,13,13,0.9)", // normal look
             border: showingDevPreview
               ? "1px solid rgba(0,188,212,0.25)"
-              : "1px solid rgba(213,184,146,0.25)", // beige accent for normal preview
+              : "1px solid rgba(213,184,146,0.25)",
             borderRadius: "1rem",
             overflow: "hidden",
             backdropFilter: "blur(10px)",
@@ -83,7 +95,7 @@ export default function FloatingDevReveal() {
             clipPath: hover
               ? "circle(160% at 90% 110%)"
               : "circle(0% at 90% 110%)",
-            transition: "clip-path 0.45s ease-out",
+            transition: "clip-path 0.35s ease-out",
             pointerEvents: "none",
           }}
         >
@@ -108,7 +120,7 @@ export default function FloatingDevReveal() {
                 width: "7px",
                 height: "7px",
                 borderRadius: "999px",
-                background: showingDevPreview ? "#00bcd4" : "#d5b892", // beige dot for normal preview
+                background: showingDevPreview ? "#00bcd4" : "#d5b892",
               }}
             />
             <span
@@ -139,14 +151,14 @@ export default function FloatingDevReveal() {
                 width: "72%",
                 background: showingDevPreview
                   ? "rgba(0,188,212,0.1)"
-                  : "rgba(213,184,146,0.15)", // beige accent
+                  : "rgba(213,184,146,0.15)",
                 border: showingDevPreview
                   ? "1px solid rgba(0,188,212,0.25)"
                   : "1px solid rgba(213,184,146,0.35)",
                 borderRadius: "999px",
                 transform: hover ? "translateX(0)" : "translateX(18px)",
                 opacity: hover ? 1 : 0,
-                transition: "all 0.35s ease",
+                transition: "all 0.25s ease",
               }}
             />
 
@@ -161,11 +173,11 @@ export default function FloatingDevReveal() {
                 borderRadius: "999px",
                 transform: hover ? "translateX(0)" : "translateX(14px)",
                 opacity: hover ? 1 : 0,
-                transition: "all 0.35s ease 0.05s",
+                transition: "all 0.25s ease 0.04s",
               }}
             />
 
-            {/* grid / body */}
+            {/* body / grid */}
             <div
               style={{
                 flex: 1,
@@ -178,7 +190,7 @@ export default function FloatingDevReveal() {
                   : "linear-gradient(180deg, rgba(21,21,21,0.4), rgba(13,13,13,0.05))",
                 transform: hover ? "translateY(0)" : "translateY(10px)",
                 opacity: hover ? 1 : 0,
-                transition: "all 0.35s ease 0.08s",
+                transition: "all 0.25s ease 0.08s",
               }}
             />
 
@@ -191,7 +203,7 @@ export default function FloatingDevReveal() {
                 letterSpacing: "0.13em",
                 transform: hover ? "translateY(0)" : "translateY(8px)",
                 opacity: hover ? 1 : 0,
-                transition: "all 0.35s ease 0.12s",
+                transition: "all 0.25s ease 0.12s",
               }}
             >
               {showingDevPreview ? "click to enter dev" : "click to go back"}
