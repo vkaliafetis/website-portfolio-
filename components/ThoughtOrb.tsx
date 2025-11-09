@@ -1,53 +1,60 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ThoughtOrb.module.css";
 
 export default function ThoughtOrb() {
+  // rotation from mouse
   const [tilt, setTilt] = useState({ rx: 10, ry: -6 });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  useEffect(() => {
+    const handleMove = (e: MouseEvent) => {
+      // get viewport center
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const cx = vw / 2;
+      const cy = vh / 2;
 
-    const midX = rect.width / 2;
-    const midY = rect.height / 2;
+      // distance from center (-1 to 1)
+      const dx = (e.clientX - cx) / cx;
+      const dy = (e.clientY - cy) / cy;
 
-    const ry = ((x - midX) / midX) * 10; // left/right
-    const rx = -((y - midY) / midY) * 10; // up/down
+      // map to small rotation
+      const ry = dx * 12; // left-right
+      const rx = dy * -10; // up-down
+      setTilt({ rx, ry });
+    };
 
-    setTilt({ rx, ry });
-  };
-
-  const handleMouseLeave = () => {
-    setTilt({ rx: 10, ry: -6 });
-  };
+    window.addEventListener("mousemove", handleMove);
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, []);
 
   return (
-    <div
-      className={styles.wrapper}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* ambient glow behind */}
+    <div className={styles.wrapper}>
+      {/* global ambient glow */}
       <div className={styles.ambient} />
 
-      {/* the part that actually tilts with the mouse */}
+      {/* mouse-reactive layer */}
       <div
         className={styles.tiltLayer}
         style={{
           transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
         }}
       >
+        {/* floating orb itself */}
         <div className={styles.orb}>
+          {/* deep inner core */}
           <div className={styles.core} />
+          {/* inner pulse layer */}
+          <div className={styles.innerGlow} />
+          {/* orbiting ring */}
           <div className={styles.ring} />
+          {/* small highlight */}
           <div className={styles.glow} />
         </div>
       </div>
 
-      {/* shadow on the ground */}
+      {/* ground shadow */}
       <div className={styles.shadow} />
     </div>
   );
