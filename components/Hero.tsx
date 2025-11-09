@@ -3,7 +3,7 @@
 import React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
-import ConcentricDiscs from "@/components/ConcentricDiscs"; // ← new import
+import ThoughtOrb from "@/components/ThoughtOrb"; // ← changed import
 
 /**
  * Hero section featuring name, tagline and a call-to-action. The
@@ -22,16 +22,16 @@ export default function Hero() {
       data-code-id="hero-section"
       style={{
         display: "flex",
-        flexDirection: "column",          // allow stacking
+        flexDirection: "column", // allow stacking
         alignItems: "center",
         justifyContent: "center",
         minHeight: "80vh",
         textAlign: "center",
       }}
     >
-      {/* Floating 3-disc animation */}
+      {/* Floating orb animation */}
       <div style={{ marginBottom: "2.5rem" }}>
-        <ConcentricDiscs />
+        <ThoughtOrb />
       </div>
 
       <motion.div style={{ y }}>
