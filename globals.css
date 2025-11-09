@@ -332,6 +332,25 @@ html[data-codemode="off"] .dev-shell {
   transform: scale(1.01);
   pointer-events: none;
 }
+/* top banner nav links */
+header nav a,
+.header nav a,
+.top-nav a {
+  display: inline-block;
+  transition:
+    transform 0.18s ease-out,
+    opacity 0.18s ease-out;
+  text-decoration: none;
+  border-bottom: none !important; /* kill underline/line */
+}
+
+/* hover effect – tiny float like your intro button */
+header nav a:hover,
+.header nav a:hover,
+.top-nav a:hover {
+  transform: translateY(-2px);
+  opacity: 0.85;
+}
 
 
 
