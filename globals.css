@@ -351,6 +351,20 @@ header nav a:hover,
   transform: translateY(-2px);
   opacity: 0.85;
 }
+/* remove any underline or bar that appears under header links */
+header nav a::after,
+.header nav a::after,
+.top-nav a::after {
+  content: none !important;
+}
+
+header nav a,
+.header nav a,
+.top-nav a {
+  text-decoration: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
 
 
 
