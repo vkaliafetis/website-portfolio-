@@ -23,7 +23,7 @@
   transition: filter 0.35s ease, opacity 0.35s ease;
 }
 
-/* follows mouse */
+/* follows mouse (set in TS) */
 .tiltLayer {
   position: relative;
   width: 190px;
@@ -117,6 +117,7 @@
   z-index: 1;
 }
 
+/* hover flare */
 .wrapper:hover .glow {
   filter: blur(10px);
 }
