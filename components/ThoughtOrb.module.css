@@ -1,7 +1,7 @@
 .wrapper {
   position: relative;
-  width: 240px;
-  height: 240px;
+  width: 250px;
+  height: 250px;
   perspective: 950px;
   display: grid;
   place-items: center;
@@ -10,11 +10,11 @@
 /* big background light */
 .ambient {
   position: absolute;
-  width: 360px;
-  height: 360px;
+  width: 380px;
+  height: 380px;
   background: radial-gradient(
     circle,
-    rgba(213, 184, 146, 0.35) 0%,
+    rgba(213, 184, 146, 0.4) 0%,
     rgba(13, 13, 13, 0) 75%
   );
   filter: blur(28px);
@@ -23,11 +23,11 @@
   transition: filter 0.35s ease, opacity 0.35s ease;
 }
 
-/* follows mouse (set in TS) */
+/* follows mouse */
 .tiltLayer {
   position: relative;
-  width: 190px;
-  height: 190px;
+  width: 200px;
+  height: 200px;
   transform-style: preserve-3d;
   transition: transform 0.12s ease-out;
   z-index: 2;
@@ -36,8 +36,8 @@
 /* floating orb */
 .orb {
   position: relative;
-  width: 190px;
-  height: 190px;
+  width: 200px;
+  height: 200px;
   transform-style: preserve-3d;
   animation: float 4.5s ease-in-out infinite;
 }
@@ -55,43 +55,43 @@
   );
   box-shadow:
     inset 0 4px 30px rgba(255, 255, 255, 0.5),
-    0 16px 50px rgba(0, 0, 0, 0.55);
-  filter: drop-shadow(0 22px 35px rgba(0, 0, 0, 0.35));
+    0 16px 55px rgba(0, 0, 0, 0.55);
+  filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.35));
 }
 
-/* inner soft light so it's not flat */
+/* inner soft light */
 .innerGlow {
   position: absolute;
-  inset: 20px;
+  inset: 24px;
   border-radius: 9999px;
   background: radial-gradient(
     circle,
-    rgba(255, 225, 191, 0.45) 0%,
+    rgba(255, 225, 191, 0.55) 0%,
     rgba(207, 150, 90, 0) 70%
   );
-  filter: blur(3px);
+  filter: blur(4px);
   pointer-events: none;
 }
 
 /* rotating ring */
 .ring {
   position: absolute;
-  inset: -22px;
+  inset: -26px;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 231, 199, 0.4);
-  box-shadow: 0 0 50px rgba(213, 184, 146, 0.65);
+  border: 1px solid rgba(255, 231, 199, 0.5);
+  box-shadow: 0 0 50px rgba(213, 184, 146, 0.75);
   transform: rotateX(67deg);
-  animation: ringRotate 9s linear infinite;
+  animation: ringRotate 8.5s linear infinite;
   pointer-events: none;
 }
 
 /* small top highlight */
 .glow {
   position: absolute;
-  top: -26px;
-  right: -16px;
-  width: 80px;
-  height: 80px;
+  top: -28px;
+  right: -18px;
+  width: 90px;
+  height: 90px;
   background: radial-gradient(
     circle,
     rgba(255, 243, 223, 1) 0%,
@@ -99,32 +99,35 @@
   );
   filter: blur(6px);
   pointer-events: none;
-  transition: filter 0.35s ease;
+  transition: filter 0.35s ease, transform 0.35s ease;
 }
 
 /* floor shadow */
 .shadow {
-  width: 130px;
-  height: 24px;
+  width: 140px;
+  height: 26px;
   background: radial-gradient(
     circle,
     rgba(0, 0, 0, 0.4) 0%,
     rgba(0, 0, 0, 0) 75%
   );
   filter: blur(3px);
-  transform: translateY(20px);
+  transform: translateY(22px);
   opacity: 0.75;
   z-index: 1;
 }
 
-/* hover flare */
+/* BIGGER hover effect now */
 .wrapper:hover .glow {
-  filter: blur(10px);
+  filter: blur(12px);
+  transform: scale(1.08);
 }
-
 .wrapper:hover .ambient {
-  filter: blur(20px);
+  filter: blur(16px);
   opacity: 1;
+}
+.wrapper:hover .orb {
+  animation-duration: 3.6s;
 }
 
 @keyframes float {
@@ -133,7 +136,7 @@
     transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-10px) scale(1.03);
+    transform: translateY(-12px) scale(1.035);
   }
 }
 

@@ -15,49 +15,47 @@ export default function Hero() {
     const audio = audioRef.current;
     if (audio) {
       audio.volume = 0.25;
-      audio.play().catch(() => {
-        // autoplay blocked -> ignore
-      });
+      audio.play().catch(() => {});
     }
   }, []);
 
   return (
     <>
-      {/* global styles we need for particles + breathing bg */}
+      {/* make background breathing MUCH more obvious */}
       <style jsx global>{`
         body {
-          background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
-          animation: ambientShift 20s ease-in-out infinite;
+          background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #010101 55%, #000 100%);
+          animation: ambientShift 14s ease-in-out infinite;
         }
         @keyframes ambientShift {
           0% {
-            background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
+            background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #010101 55%, #000 100%);
           }
           50% {
-            background: radial-gradient(circle at 60% 40%, #101010, #040404);
+            background: radial-gradient(circle at 60% 40%, #1a1410 0%, #050505 60%, #000 100%);
           }
           100% {
-            background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
+            background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #010101 55%, #000 100%);
           }
         }
         .hero-particles {
           position: absolute;
           inset: 0;
           background-image:
-            radial-gradient(circle, rgba(255, 236, 209, 0.22) 1.5px, transparent 0),
-            radial-gradient(circle, rgba(255, 236, 209, 0.16) 1.5px, transparent 0);
-          background-size: 180px 180px, 240px 240px;
-          background-position: 0 0, 40px 60px;
-          animation: particleDrift 30s linear infinite;
-          opacity: 0.35;
+            radial-gradient(circle, rgba(255, 236, 209, 0.35) 1.5px, transparent 0),
+            radial-gradient(circle, rgba(255, 236, 209, 0.18) 1.5px, transparent 0);
+          background-size: 160px 160px, 230px 230px;
+          background-position: 0 0, 50px 80px;
+          animation: particleDrift 24s linear infinite;
+          opacity: 0.4;
           pointer-events: none;
         }
         @keyframes particleDrift {
           0% {
-            background-position: 0 0, 40px 60px;
+            background-position: 0 0, 50px 80px;
           }
           100% {
-            background-position: 300px 200px, 200px 300px;
+            background-position: 260px 180px, 180px 280px;
           }
         }
       `}</style>
@@ -71,15 +69,26 @@ export default function Hero() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          minHeight: "80vh",
+          minHeight: "85vh",
           textAlign: "center",
           overflow: "hidden",
         }}
       >
-        {/* drifting particles layer */}
+        {/* particles */}
         <div className="hero-particles" />
 
-        {/* hidden audio (optional) */}
+        {/* vignette behind hero so center pops */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(circle at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.55) 100%)",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* hidden audio */}
         <audio
           ref={audioRef}
           src="/ambient-intro.mp3"
@@ -89,28 +98,28 @@ export default function Hero() {
 
         {/* orb */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.8, ease: "easeOut" }}
-          style={{ marginBottom: "2.5rem" }}
+          initial={{ opacity: 0, y: 30, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ delay: 0.15, duration: 0.7, ease: "easeOut" }}
+          style={{ marginBottom: "2.8rem" }}
         >
           <ThoughtOrb />
         </motion.div>
 
-        {/* text block */}
+        {/* text */}
         <motion.div
           style={{ y }}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.9, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 40, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ delay: 0.35, duration: 0.7, ease: "easeOut" }}
         >
           <motion.h1
-            initial={{ letterSpacing: "0.35em", opacity: 0 }}
+            initial={{ letterSpacing: "0.28em", opacity: 0 }}
             animate={{ letterSpacing: "0.05em", opacity: 1 }}
-            transition={{ delay: 0.45, duration: 1.0, ease: "easeOut" }}
+            transition={{ delay: 0.45, duration: 0.9, ease: "easeOut" }}
             style={{
-              fontSize: "clamp(2rem, 5vw, 4rem)",
-              marginBottom: "var(--space-md)",
+              fontSize: "clamp(2.4rem, 5vw, 4.1rem)",
+              marginBottom: "1rem",
             }}
           >
             Vangelis (Van) Kaliafetis
@@ -118,9 +127,9 @@ export default function Hero() {
 
           <p
             style={{
-              fontSize: "1.125rem",
+              fontSize: "1.1rem",
               color: "var(--color-muted)",
-              marginBottom: "var(--space-lg)",
+              marginBottom: "1.8rem",
               maxWidth: "640px",
             }}
           >
@@ -129,7 +138,7 @@ export default function Hero() {
           </p>
 
           <Link href="#contact">
-            <button>Get in touch</button>
+            <button style={{ transform: "translateZ(0)" }}>Get in touch</button>
           </Link>
         </motion.div>
       </section>
