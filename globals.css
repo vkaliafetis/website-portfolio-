@@ -404,6 +404,48 @@ body {
     background-position: 300px 200px, 200px 300px;
   }
 }
+/* site-wide ambient background */
+body {
+  background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #000 70%);
+  animation: siteAmbient 16s ease-in-out infinite;
+}
+
+@keyframes siteAmbient {
+  0% {
+    background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #000 70%);
+  }
+  50% {
+    background: radial-gradient(circle at 40% 60%, #15100c 0%, #000 70%);
+  }
+  100% {
+    background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #000 70%);
+  }
+}
+
+/* site-wide drifting particles (subtle) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(255, 236, 209, 0.25) 1.2px, transparent 0),
+    radial-gradient(circle, rgba(255, 236, 209, 0.12) 1.2px, transparent 0);
+  background-size: 160px 160px, 240px 240px;
+  background-position: 0 0, 50px 80px;
+  animation: siteParticles 28s linear infinite;
+  opacity: 0.35;
+  z-index: 0;
+}
+
+@keyframes siteParticles {
+  0% {
+    background-position: 0 0, 50px 80px;
+  }
+  100% {
+    background-position: 260px 180px, 180px 280px;
+  }
+}
 
 
 

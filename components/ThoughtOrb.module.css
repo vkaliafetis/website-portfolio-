@@ -23,7 +23,7 @@
   transition: filter 0.35s ease, opacity 0.35s ease;
 }
 
-/* follows mouse */
+/* follows mouse (from TS) */
 .tiltLayer {
   position: relative;
   width: 200px;
@@ -33,7 +33,7 @@
   z-index: 2;
 }
 
-/* floating orb */
+/* floating orb (always the same, no hover levitate change) */
 .orb {
   position: relative;
   width: 200px;
@@ -117,17 +117,14 @@
   z-index: 1;
 }
 
-/* BIGGER hover effect now */
+/* hover: ONLY more glow & light, no levitate change */
 .wrapper:hover .glow {
   filter: blur(12px);
-  transform: scale(1.08);
+  transform: scale(1.04);
 }
 .wrapper:hover .ambient {
   filter: blur(16px);
   opacity: 1;
-}
-.wrapper:hover .orb {
-  animation-duration: 3.6s;
 }
 
 @keyframes float {
