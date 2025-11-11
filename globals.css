@@ -4,7 +4,7 @@
   Global styles for the portfolio. A light-weight reset combined with
   theme-aware variables yields a clean, accessible baseline. Use
   CSS custom properties defined in `tokens.css` throughout your
-  components to remain consistent. When Code‑Reveal mode is active
+  components to remain consistent. When Code-Reveal mode is active
   (`data-codemode="on"` on the `<html>` element), additional
   industrial styling is applied via variables.
 */
@@ -26,11 +26,11 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   transition: background-color 0.4s ease, color 0.4s ease;
-  /* When Code‑Reveal mode is on, a subtle grid is drawn */
+  /* When Code-Reveal mode is on, a subtle grid is drawn */
   background-image: var(--code-grid, none);
 }
 
-/* Subtle grid for Code‑Reveal mode */
+/* Subtle grid for Code-Reveal mode */
 [data-codemode="on"] body {
   --code-grid: repeating-linear-gradient(
       to right,
@@ -177,11 +177,12 @@ button:active {
   background-color: color-mix(in srgb, var(--color-accent) 80%, #000000);
 }
 
-/* Highlight elements while hovered in Code‑Reveal mode */
+/* Highlight elements while hovered in Code-Reveal mode */
 [data-code-highlight="true"] {
   outline: 1px dashed var(--color-accent);
   outline-offset: 2px;
 }
+
 /* Intro loading overlay */
 .loading-overlay {
   position: fixed;
@@ -283,6 +284,7 @@ button:active {
   background: none;
   outline: none;
 }
+
 /* base layers */
 .app-shell,
 .dev-shell {
@@ -305,7 +307,7 @@ button:active {
   z-index: 20;
   background: #02111b;
   opacity: 0;
-  transform: scale(1.01); /* tiny zoom so it feels like it's coming forward */
+  transform: scale(1.01);
   pointer-events: none;
 }
 
@@ -332,6 +334,7 @@ html[data-codemode="off"] .dev-shell {
   transform: scale(1.01);
   pointer-events: none;
 }
+
 /* top banner nav links */
 header nav a,
 .header nav a,
@@ -341,17 +344,16 @@ header nav a,
     transform 0.18s ease-out,
     opacity 0.18s ease-out;
   text-decoration: none;
-  border-bottom: none !important; /* kill underline/line */
+  border-bottom: none !important;
 }
 
-/* hover effect – tiny float like your intro button */
 header nav a:hover,
 .header nav a:hover,
 .top-nav a:hover {
   transform: translateY(-2px);
   opacity: 0.85;
 }
-/* remove any underline or bar that appears under header links */
+
 header nav a::after,
 .header nav a::after,
 .top-nav a::after {
@@ -365,52 +367,29 @@ header nav a,
   border: none !important;
   box-shadow: none !important;
 }
-/* 2) subtle ambient breathing background for whole site */
-body {
-  animation: ambientShift 20s ease-in-out infinite;
-  background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
-}
 
-@keyframes ambientShift {
-  0% {
-    background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
-  }
-  50% {
-    background: radial-gradient(circle at 60% 40%, #101010, #040404);
-  }
-  100% {
-    background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
-  }
-}
-
-/* 3) tiny drifting particles in hero */
-.hero-particles {
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(255, 236, 209, 0.2) 1.5px, transparent 0),
-    radial-gradient(circle, rgba(255, 236, 209, 0.15) 1.5px, transparent 0);
-  background-size: 180px 180px, 240px 240px;
-  background-position: 0 0, 40px 60px;
-  animation: particleDrift 30s linear infinite;
-  opacity: 0.35;
-}
-
-@keyframes particleDrift {
-  0% {
-    background-position: 0 0, 40px 60px;
-  }
-  100% {
-    background-position: 300px 200px, 200px 300px;
-  }
-}
-/* site-wide ambient background */
-body {
+/* ambient + particles for NORMAL mode */
+.app-shell {
   background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #000 70%);
-  animation: siteAmbient 16s ease-in-out infinite;
+  animation: appAmbient 16s ease-in-out infinite;
 }
 
-@keyframes siteAmbient {
+.app-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(255, 236, 209, 0.25) 1.2px, transparent 0),
+    radial-gradient(circle, rgba(255, 236, 209, 0.12) 1.2px, transparent 0);
+  background-size: 160px 160px, 240px 240px;
+  background-position: 0 0, 50px 80px;
+  animation: appParticles 28s linear infinite;
+  opacity: 0.35;
+  z-index: 11;
+}
+
+@keyframes appAmbient {
   0% {
     background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #000 70%);
   }
@@ -422,23 +401,7 @@ body {
   }
 }
 
-/* site-wide drifting particles (subtle) */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle, rgba(255, 236, 209, 0.25) 1.2px, transparent 0),
-    radial-gradient(circle, rgba(255, 236, 209, 0.12) 1.2px, transparent 0);
-  background-size: 160px 160px, 240px 240px;
-  background-position: 0 0, 50px 80px;
-  animation: siteParticles 28s linear infinite;
-  opacity: 0.35;
-  z-index: 0;
-}
-
-@keyframes siteParticles {
+@keyframes appParticles {
   0% {
     background-position: 0 0, 50px 80px;
   }
@@ -446,7 +409,3 @@ body::before {
     background-position: 260px 180px, 180px 280px;
   }
 }
-
-
-
-
