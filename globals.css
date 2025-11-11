@@ -365,6 +365,45 @@ header nav a,
   border: none !important;
   box-shadow: none !important;
 }
+/* 2) subtle ambient breathing background for whole site */
+body {
+  animation: ambientShift 20s ease-in-out infinite;
+  background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
+}
+
+@keyframes ambientShift {
+  0% {
+    background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
+  }
+  50% {
+    background: radial-gradient(circle at 60% 40%, #101010, #040404);
+  }
+  100% {
+    background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
+  }
+}
+
+/* 3) tiny drifting particles in hero */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 236, 209, 0.2) 1.5px, transparent 0),
+    radial-gradient(circle, rgba(255, 236, 209, 0.15) 1.5px, transparent 0);
+  background-size: 180px 180px, 240px 240px;
+  background-position: 0 0, 40px 60px;
+  animation: particleDrift 30s linear infinite;
+  opacity: 0.35;
+}
+
+@keyframes particleDrift {
+  0% {
+    background-position: 0 0, 40px 60px;
+  }
+  100% {
+    background-position: 300px 200px, 200px 300px;
+  }
+}
 
 
 
