@@ -18,15 +18,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Base body */
 body {
   margin: 0;
-  background-color: var(--color-bg);
+  background-color: #000000;       /* pure black base */
   color: var(--color-fg);
   font-family: var(--font-sans);
   line-height: 1.5;
   min-height: 100vh;
   transition: background-color 0.4s ease, color 0.4s ease;
-  /* When Code-Reveal mode is on, a subtle grid is drawn */
   background-image: var(--code-grid, none);
 }
 
@@ -48,6 +48,7 @@ body {
     );
 }
 
+/* Typography */
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 var(--space-md) 0;
   font-weight: 600;
@@ -58,6 +59,7 @@ p {
   max-width: 65ch;
 }
 
+/* Links */
 a {
   color: var(--color-accent);
   text-decoration: none;
@@ -70,6 +72,7 @@ a:focus-visible {
   text-decoration: underline;
 }
 
+/* Layout */
 nav ul {
   list-style: none;
   padding: 0;
@@ -103,6 +106,7 @@ textarea:focus {
   outline-offset: 2px;
 }
 
+/* Buttons */
 button,
 input[type="submit"] {
   padding: var(--space-sm) var(--space-lg);
@@ -125,7 +129,7 @@ button:active {
   transform: scale(0.97);
 }
 
-/* Code inspector tooltip styling */
+/* Code inspector tooltip */
 .code-tooltip {
   position: fixed;
   z-index: 10000;
@@ -285,7 +289,7 @@ button:active {
   outline: none;
 }
 
-/* base layers */
+/* Base shells for normal and dev mode */
 .app-shell,
 .dev-shell {
   position: fixed;
@@ -297,7 +301,7 @@ button:active {
 /* normal mode visible by default */
 .app-shell {
   z-index: 10;
-  background: var(--color-bg, #0d0d0d);
+  background: #000000;   /* pure black; glow handled only in hero */
   opacity: 1;
   transform: scale(1);
 }
@@ -307,7 +311,7 @@ button:active {
   z-index: 20;
   background: #02111b;
   opacity: 0;
-  transform: scale(1.01); /* tiny zoom so it feels like it's coming forward */
+  transform: scale(1.01);
   pointer-events: none;
 }
 
@@ -370,208 +374,47 @@ header nav a,
   box-shadow: none !important;
 }
 
-/* 2) subtle ambient breathing background for whole site */
-body {
-  animation: ambientShift 20s ease-in-out infinite;
-  background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
-}
-
-@keyframes ambientShift {
-  0% {
-    background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
-  }
-  50% {
-    background: radial-gradient(circle at 60% 40%, #101010, #040404);
-  }
-  100% {
-    background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
-  }
-}
-
-/* 3) tiny drifting particles in hero */
+/* === HERO LOCAL GLOW + PARTICLES (only where the orb is) === */
 .hero-particles {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(255, 236, 209, 0.2) 1.5px, transparent 0),
-    radial-gradient(circle, rgba(255, 236, 209, 0.15) 1.5px, transparent 0);
-  background-size: 180px 180px, 240px 240px;
-  background-position: 0 0, 40px 60px;
-  animation: particleDrift 30s linear infinite;
-  opacity: 0.35;
-}
-
-@keyframes particleDrift {
-  0% {
-    background-position: 0 0, 40px 60px;
-  }
-  100% {
-    background-position: 300px 200px, 200px 300px;
-  }
-}
-
-/* ambient + particles for NORMAL mode (older version — unused now but kept) */
-.app-shell {
-  background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #000 70%);
-  animation: appAmbient 16s ease-in-out infinite;
-}
-
-.app-shell::before {
-  content: "";
-  position: fixed;
-  inset: 0;
   pointer-events: none;
+  /* First layer: big soft glow centred slightly above the middle,
+     so it feels like it is coming from the orb */
   background-image:
-    radial-gradient(circle, rgba(255, 236, 209, 0.25) 1.2px, transparent 0),
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(255, 236, 209, 0.28) 0%,
+      rgba(255, 236, 209, 0.10) 35%,
+      transparent 70%
+    ),
+    /* Second + third layers: small drifting dust dots inside hero only */
+    radial-gradient(circle, rgba(255, 236, 209, 0.20) 1.2px, transparent 0),
     radial-gradient(circle, rgba(255, 236, 209, 0.12) 1.2px, transparent 0);
-  background-size: 160px 160px, 240px 240px;
-  background-position: 0 0, 50px 80px;
-  animation: appParticles 28s linear infinite;
-  opacity: 0.35;
+  background-size:
+    140% 140%,         /* glow spread */
+    180px 180px,
+    240px 240px;
+  background-position:
+    50% 0%,            /* glow anchored towards top */
+    0 0,
+    40px 60px;
+  animation: heroParticleDrift 30s linear infinite;
+  opacity: 0.42;       /* visible but not shouty */
   z-index: 0;
 }
 
-@keyframes appAmbient {
-  0% {
-    background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #000 70%);
-  }
-  50% {
-    background: radial-gradient(circle at 40% 60%, #15100c 0%, #000 70%);
-  }
-  100% {
-    background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #000 70%);
-  }
-}
-
-@keyframes appParticles {
-  0% {
-    background-position: 0 0, 50px 80px;
-  }
-  100% {
-    background-position: 260px 180px, 180px 280px;
-  }
-}
-
-/* FINAL OVERRIDES: keep bottom fully black, boost particles, add top glow */
-
-/* 1) body: pure black base + soft glow only at top */
-body {
-  background-color: #000000;
-  background-image: none;
-  animation: none;
-}
-
-/* top-only subtle gradient glow */
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 28vh; /* glow height */
-  background: radial-gradient(
-    circle at 50% 0%,
-    rgba(255, 236, 209, 0.18) 0%,
-    rgba(255, 236, 209, 0.05) 45%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* 2) app-shell: pure black background + stronger global particles */
-.app-shell {
-  background: #000000;
-  animation: none;
-}
-
-/* stronger, denser particles on top of black */
-.app-shell::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-
-  /* stronger, denser beige particles */
-  background-image:
-    radial-gradient(circle, rgba(255, 236, 209, 0.45) 2px, transparent 0),
-    radial-gradient(circle, rgba(255, 236, 209, 0.28) 2px, transparent 0),
-    radial-gradient(circle, rgba(255, 236, 209, 0.18) 1.4px, transparent 0);
-
-  background-size: 140px 140px, 200px 200px, 260px 260px;
-  background-position: 0 0, 40px 60px, 100px 140px;
-
-  animation: appParticlesStrong 22s linear infinite;
-  opacity: 0.55;
-  z-index: 0;
-}
-
-/* smoother, slightly faster drift for new particle field */
-@keyframes appParticlesStrong {
+@keyframes heroParticleDrift {
   0% {
     background-position:
+      50% 0%,
       0 0,
-      40px 60px,
-      100px 140px;
+      40px 60px;
   }
   100% {
     background-position:
+      50% 0%,
       260px 200px,
-      200px 300px,
-      380px 240px;
-  }
-}
-/* === Final tuning: softer particles + visible top glow, no layout changes === */
-
-/* Keep base fully black, but add a gentle glowing cap at the top */
-body {
-  background-color: #000000;
-}
-
-/* Soft visible gradient at the top of the page */
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 38vh;
-  background: radial-gradient(
-    circle at 50% 0%,
-    rgba(255, 236, 209, 0.32) 0%,
-    rgba(255, 236, 209, 0.10) 40%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Use a dedicated global particle layer on app-shell, but make it subtle */
-.app-shell::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-
-  /* softer, smaller, less bright particles */
-  background-image:
-    radial-gradient(circle, rgba(255, 236, 209, 0.18) 1.2px, transparent 0),
-    radial-gradient(circle, rgba(255, 236, 209, 0.10) 1.2px, transparent 0),
-    radial-gradient(circle, rgba(255, 236, 209, 0.06) 0.9px, transparent 0);
-
-  background-size: 170px 170px, 230px 230px, 310px 310px;
-  background-position: 0 0, 40px 60px, 90px 120px;
-
-  animation: appParticlesSoft 26s linear infinite;
-  opacity: 0.24; /* MUCH softer than before */
-  z-index: 0;
-}
-
-@keyframes appParticlesSoft {
-  0% {
-    background-position: 0 0, 40px 60px, 90px 120px;
-  }
-  100% {
-    background-position: 260px 200px, 200px 300px, 360px 260px;
+      200px 300px;
   }
 }
