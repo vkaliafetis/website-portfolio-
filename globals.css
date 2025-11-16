@@ -182,7 +182,6 @@ button:active {
   outline: 1px dashed var(--color-accent);
   outline-offset: 2px;
 }
-
 /* Intro loading overlay */
 .loading-overlay {
   position: fixed;
@@ -284,7 +283,6 @@ button:active {
   background: none;
   outline: none;
 }
-
 /* base layers */
 .app-shell,
 .dev-shell {
@@ -307,7 +305,7 @@ button:active {
   z-index: 20;
   background: #02111b;
   opacity: 0;
-  transform: scale(1.01);
+  transform: scale(1.01); /* tiny zoom so it feels like it's coming forward */
   pointer-events: none;
 }
 
@@ -334,7 +332,6 @@ html[data-codemode="off"] .dev-shell {
   transform: scale(1.01);
   pointer-events: none;
 }
-
 /* top banner nav links */
 header nav a,
 .header nav a,
@@ -344,16 +341,17 @@ header nav a,
     transform 0.18s ease-out,
     opacity 0.18s ease-out;
   text-decoration: none;
-  border-bottom: none !important;
+  border-bottom: none !important; /* kill underline/line */
 }
 
+/* hover effect – tiny float like your intro button */
 header nav a:hover,
 .header nav a:hover,
 .top-nav a:hover {
   transform: translateY(-2px);
   opacity: 0.85;
 }
-
+/* remove any underline or bar that appears under header links */
 header nav a::after,
 .header nav a::after,
 .top-nav a::after {
@@ -367,8 +365,47 @@ header nav a,
   border: none !important;
   box-shadow: none !important;
 }
+/* 2) subtle ambient breathing background for whole site */
+body {
+  animation: ambientShift 20s ease-in-out infinite;
+  background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
+}
 
-/* ambient + particles for NORMAL mode */
+@keyframes ambientShift {
+  0% {
+    background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
+  }
+  50% {
+    background: radial-gradient(circle at 60% 40%, #101010, #040404);
+  }
+  100% {
+    background: radial-gradient(circle at 40% 60%, #0d0d0d, #030303);
+  }
+}
+
+/* 3) tiny drifting particles in hero */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 236, 209, 0.2) 1.5px, transparent 0),
+    radial-gradient(circle, rgba(255, 236, 209, 0.15) 1.5px, transparent 0);
+  background-size: 180px 180px, 240px 240px;
+  background-position: 0 0, 40px 60px;
+  animation: particleDrift 30s linear infinite;
+  opacity: 0.35;
+}
+
+@keyframes particleDrift {
+  0% {
+    background-position: 0 0, 40px 60px;
+  }
+  100% {
+    background-position: 300px 200px, 200px 300px;
+  }
+}
+
+/* ambient + particles for NORMAL mode (visible above body) */
 .app-shell {
   background: radial-gradient(circle at 50% 50%, #0d0d0d 0%, #000 70%);
   animation: appAmbient 16s ease-in-out infinite;
@@ -386,7 +423,7 @@ header nav a,
   background-position: 0 0, 50px 80px;
   animation: appParticles 28s linear infinite;
   opacity: 0.35;
-  z-index: 11;
+  z-index: 0; /* <- was 11, now behind content */
 }
 
 @keyframes appAmbient {
