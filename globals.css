@@ -521,3 +521,57 @@ body::after {
       380px 240px;
   }
 }
+/* === Final tuning: softer particles + visible top glow, no layout changes === */
+
+/* Keep base fully black, but add a gentle glowing cap at the top */
+body {
+  background-color: #000000;
+}
+
+/* Soft visible gradient at the top of the page */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 38vh;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(255, 236, 209, 0.32) 0%,
+    rgba(255, 236, 209, 0.10) 40%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Use a dedicated global particle layer on app-shell, but make it subtle */
+.app-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+
+  /* softer, smaller, less bright particles */
+  background-image:
+    radial-gradient(circle, rgba(255, 236, 209, 0.18) 1.2px, transparent 0),
+    radial-gradient(circle, rgba(255, 236, 209, 0.10) 1.2px, transparent 0),
+    radial-gradient(circle, rgba(255, 236, 209, 0.06) 0.9px, transparent 0);
+
+  background-size: 170px 170px, 230px 230px, 310px 310px;
+  background-position: 0 0, 40px 60px, 90px 120px;
+
+  animation: appParticlesSoft 26s linear infinite;
+  opacity: 0.24; /* MUCH softer than before */
+  z-index: 0;
+}
+
+@keyframes appParticlesSoft {
+  0% {
+    background-position: 0 0, 40px 60px, 90px 120px;
+  }
+  100% {
+    background-position: 260px 200px, 200px 300px, 360px 260px;
+  }
+}
