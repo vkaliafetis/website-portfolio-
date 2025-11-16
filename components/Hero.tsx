@@ -7,17 +7,11 @@ import ThoughtOrb from "@/components/ThoughtOrb";
 
 /**
  * Hero section featuring name, tagline and a call-to-action.
- * We keep:
- * - vertical centering
- * - parallax on scroll (content moves up a bit)
- * - orb displayed above the text
- *
- * We removed:
- * - fancy text animations
- * - inline global styles (particles now live in globals.css)
+ * - Orb above the text
+ * - Slight parallax on scroll
+ * - Particles layer via .hero-particles
  */
 export default function Hero() {
-  // framer-motion scroll parallax like you had before
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 300], [0, -100]);
 
@@ -28,7 +22,7 @@ export default function Hero() {
       style={{
         position: "relative",
         display: "flex",
-        flexDirection: "column", // allow stacking (orb above text)
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         minHeight: "80vh",
@@ -36,13 +30,16 @@ export default function Hero() {
         overflow: "hidden",
       }}
     >
+      {/* background particles overlay */}
+      <div className="hero-particles" />
+
       {/* Orb / focal visual */}
-      <div style={{ marginBottom: "2.5rem" }}>
+      <div style={{ marginBottom: "2.5rem", position: "relative", zIndex: 1 }}>
         <ThoughtOrb />
       </div>
 
       {/* Text block with slight parallax on scroll */}
-      <motion.div style={{ y }}>
+      <motion.div style={{ y, position: "relative", zIndex: 1 }}>
         <h1
           style={{
             fontSize: "clamp(2rem, 5vw, 4rem)",
